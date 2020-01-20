@@ -114,8 +114,11 @@ object Facts {
 
 
     val toSave = factsWithWeather.select("hour", "authority", "id", "vehicleTypeId", "value", "dateId")
-      .toDF("hour", "local_authority_ons_code","weather_id",  "vehicle_type_id", "count", "date_id")
+      .toDF("hour", "local_authority_ons_code", "weather_id",  "vehicle_type_id", "count", "date_id")
 
+    toSave.printSchema()
+    toSave.take(15).foreach(x => logger.error(x))
+                      //[8,E08000003,-1014741045,4,27,1581783096]
       toSave.write.mode("append").insertInto("facts")
 
   }
